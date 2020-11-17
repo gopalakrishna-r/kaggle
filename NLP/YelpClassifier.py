@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def load_data(csv_file, split=0.9):
     data = pd.read_csv(csv_file)
 
@@ -15,6 +16,7 @@ def load_data(csv_file, split=0.9):
     val_labels = [{"cats": labels} for labels in labels[split:]]
 
     return texts[:split], train_labels, texts[split:], val_labels
+
 
 from spacy.util import minibatch
 import random
@@ -32,7 +34,7 @@ def train(model, train_data, optimizer):
         texts, labels = zip(*batch)
 
         # Update model with texts and labels
-        model.update(texts, labels, sgd= optimizer, losses = losses)
+        model.update(texts, labels, sgd=optimizer, losses=losses)
 
     return losses
 
@@ -83,7 +85,6 @@ print(train_texts[:2])
 print('\nLabels from training data\n------')
 print(train_labels[:2])
 
-
 import spacy
 
 # Create an empty model
@@ -91,10 +92,10 @@ nlp = spacy.blank("en")
 
 # Create the TextCategorizer with exclusive classes and "bow" architecture
 textcat = nlp.create_pipe(
-              "textcat",
-              config={
-                "exclusive_classes": True,
-                "architecture": "bow"})
+    "textcat",
+    config={
+        "exclusive_classes": True,
+        "architecture": "bow"})
 
 # Add the TextCategorizer to the empty model
 nlp.add_pipe(textcat)
@@ -102,8 +103,6 @@ nlp.add_pipe(textcat)
 # Add labels to text classifier
 textcat.add_label("NEGATIVE")
 textcat.add_label("POSITIVE")
-
-
 
 spacy.util.fix_random_seed(1)
 random.seed(1)

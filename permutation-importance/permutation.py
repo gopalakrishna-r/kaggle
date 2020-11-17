@@ -1,7 +1,6 @@
 # Loading data, dividing, modeling and EDA below
 import pandas as pd
 from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 data = pd.read_csv('../input/new-york-city-taxi-fare-prediction/train.csv', nrows=50000)
@@ -24,14 +23,15 @@ base_features = ['pickup_longitude',
 
 X = data[base_features]
 
-
 train_X, val_X, train_y, val_y = train_test_split(X, y, random_state=1)
 first_model = RandomForestRegressor(n_estimators=50, random_state=1).fit(train_X, train_y)
 
 # Environment Set-Up for feedback system.
 from learntools.core import binder
+
 binder.bind(globals())
 from learntools.ml_explainability.ex2 import *
+
 print("Setup Complete")
 
 # show data

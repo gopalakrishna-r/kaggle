@@ -1,6 +1,6 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 from IPython.display import display
-import matplotlib.pyplot as plt
 
 ion = pd.read_csv('input/dl-course-data/ion.csv', index_col=0)
 display(ion.head())
@@ -16,7 +16,7 @@ min_ = df_train.min(axis=0)
 
 df_train = (df_train - min_) / (max_ - min_)
 df_valid = (df_valid - min_) / (max_ - min_)
-df_train.dropna(axis=1, inplace=True) # drop the empty feature in column 2
+df_train.dropna(axis=1, inplace=True)  # drop the empty feature in column 2
 df_valid.dropna(axis=1, inplace=True)
 
 X_train = df_train.drop('Class', axis=1)
@@ -42,16 +42,16 @@ model.compile(
 early_stopping = keras.callbacks.EarlyStopping(
     min_delta=0.001,
     patience=10,
-    restore_best_weights= True
+    restore_best_weights=True
 )
 
 history = model.fit(
     X_train, y_train,
     validation_data=(X_valid, y_valid),
-    batch_size= 512,
-    epochs= 1000,
+    batch_size=512,
+    epochs=1000,
     callbacks=[early_stopping],
-    verbose = 1,
+    verbose=1,
 )
 
 history_df = pd.DataFrame(history.history)
@@ -60,4 +60,5 @@ history_df.loc[5:, ['loss', 'val_loss']].plot()
 history_df.loc[5:, ['binary_accuracy', 'val_binary_accuracy']].plot()
 plt.show()
 
-print(f"best validation accuracy {history_df['val_loss'].min()}, validation accuracy {history_df['val_binary_accuracy'].min()}")
+print(
+    f"best validation accuracy {history_df['val_loss'].min()}, validation accuracy {history_df['val_binary_accuracy'].min()}")

@@ -1,17 +1,18 @@
 # Load in the data from JSON file
 import pandas as pd
+
 data = pd.read_json('input/restaurant.json')
 data.head()
 
 menu = ["Cheese Steak", "Cheesesteak", "Steak and Cheese", "Italian Combo", "Tiramisu", "Cannoli",
         "Chicken Salad", "Chicken Spinach Salad", "Meatball", "Pizza", "Pizzas", "Spaghetti",
-        "Bruchetta", "Eggplant", "Italian Beef", "Purista", "Pasta", "Calzones",  "Calzone",
+        "Bruchetta", "Eggplant", "Italian Beef", "Purista", "Pasta", "Calzones", "Calzone",
         "Italian Sausage", "Chicken Cutlet", "Chicken Parm", "Chicken Parmesan", "Gnocchi",
         "Chicken Pesto", "Turkey Sandwich", "Turkey Breast", "Ziti", "Portobello", "Reuben",
-        "Mozzarella Caprese",  "Corned Beef", "Garlic Bread", "Pastrami", "Roast Beef",
+        "Mozzarella Caprese", "Corned Beef", "Garlic Bread", "Pastrami", "Roast Beef",
         "Tuna Salad", "Lasagna", "Artichoke Salad", "Fettuccini Alfredo", "Chicken Parmigiana",
         "Grilled Veggie", "Grilled Veggies", "Grilled Vegetable", "Mac and Cheese", "Macaroni",
-         "Prosciutto", "Salami"]
+        "Prosciutto", "Salami"]
 
 import spacy
 from spacy.matcher import PhraseMatcher
@@ -59,7 +60,7 @@ for idx, review in data.iterrows():
         item_ratings[item].append(review['stars'])
 
 # Calculate the mean ratings for each menu item as a dictionary
-mean_ratings = {item:sum(ratings) / len(ratings) for (item,ratings) in  item_ratings.items() }
+mean_ratings = {item: sum(ratings) / len(ratings) for (item, ratings) in item_ratings.items()}
 
 # Find the worst item, and write it as a string in worst_item. This can be multiple lines of code if you want.
 worst_item = sorted(mean_ratings, key=mean_ratings.get)[0]

@@ -1,10 +1,9 @@
 import pandas as pd
-
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.impute import SimpleImputer
-from sklearn.pipeline import make_pipeline
 from sklearn.compose import make_column_transformer
+from sklearn.impute import SimpleImputer
+from sklearn.model_selection import train_test_split
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
 
 hotel = pd.read_csv('input/hotel.csv')
 
@@ -13,10 +12,10 @@ y = X.pop('is_canceled')
 
 X['arrival_date_month'] = \
     X['arrival_date_month'].map(
-        {'January':1, 'February': 2, 'March':3,
-         'April':4, 'May':5, 'June':6, 'July':7,
-         'August':8, 'September':9, 'October':10,
-         'November':11, 'December':12}
+        {'January': 1, 'February': 2, 'March': 3,
+         'April': 4, 'May': 5, 'June': 6, 'July': 7,
+         'August': 8, 'September': 9, 'October': 10,
+         'November': 11, 'December': 12}
     )
 
 features_num = [
@@ -34,7 +33,7 @@ features_cat = [
 ]
 
 transformer_num = make_pipeline(
-    SimpleImputer(strategy="constant"), # there are a few missing values
+    SimpleImputer(strategy="constant"),  # there are a few missing values
     StandardScaler(),
 )
 transformer_cat = make_pipeline(
@@ -60,14 +59,14 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 model = keras.Sequential([
-layers.BatchNormalization(input_shape = input_shape),
-layers.Dense(256, activation='relu'),
-layers.BatchNormalization(),
-layers.Dropout(0.3),
-layers.Dense(256, activation='relu'),
-layers.BatchNormalization(),
-layers.Dropout(0.3),
-layers.Dense(1, activation='sigmoid')
+    layers.BatchNormalization(input_shape=input_shape),
+    layers.Dense(256, activation='relu'),
+    layers.BatchNormalization(),
+    layers.Dropout(0.3),
+    layers.Dense(256, activation='relu'),
+    layers.BatchNormalization(),
+    layers.Dropout(0.3),
+    layers.Dense(1, activation='sigmoid')
 ])
 
 model.compile(
@@ -90,6 +89,7 @@ history = model.fit(
 )
 
 import matplotlib.pyplot as plt
+
 history_df = pd.DataFrame(history.history)
 history_df.loc[:, ['loss', 'val_loss']].plot(title="Cross-entropy")
 history_df.loc[:, ['binary_accuracy', 'val_binary_accuracy']].plot(title="Accuracy")

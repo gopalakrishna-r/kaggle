@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+
+import pandas as pd
 from IPython.display import display
 
 RED_WINE_PATH = os.path.join("input", "dl-course-data")
@@ -32,23 +33,24 @@ model = keras.Sequential([
     layers.Dropout(0.3),
     layers.BatchNormalization(),
     layers.Dense(1),
-    ]
+]
 )
 
-model.compile(optimizer = 'adam',
-loss = 'mae'
-)
+model.compile(optimizer='adam',
+              loss='mae'
+              )
 
 history = model.fit(
-X_train, y_train,
-validation_data = (X_valid, y_valid),
-batch_size = 256,
-epochs = 100,
-verbose = 1
+    X_train, y_train,
+    validation_data=(X_valid, y_valid),
+    batch_size=256,
+    epochs=100,
+    verbose=1
 )
 
 import pandas as pd
 import matplotlib.pyplot as plt
+
 history_df = pd.DataFrame(history.history)
 history_df.loc[:, ['loss', 'val_loss']].plot();
 plt.show()

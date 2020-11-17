@@ -1,8 +1,4 @@
-import numpy as np
 import pandas as pd
-from sklearn import preprocessing, metrics
-import lightgbm as lgb
-
 
 # Create features from   timestamps
 click_data = pd.read_csv('input/feature-engineering-data/train_sample.csv',
@@ -15,7 +11,6 @@ clicks = click_data.assign(day=click_times.dt.day.astype('uint8'),
 
 from itertools import combinations
 from sklearn.preprocessing import LabelEncoder
-
 
 label_enc = LabelEncoder()
 cat_features = ['ip', 'app', 'device', 'os', 'channel']
@@ -33,18 +28,21 @@ for feature_inter_pair in feature_interactions:
 
 def count_past_events(series):
     clicked = pd.Series(clicks.index, index=clicks.click_time, name='click_count').sort_index()
-    count_past_events = clicked.rolling('6H').count() -1
-    count_past_events.index = clicked.values
-    count_past_events = count_past_events.reindex(clicks.index)
-    return count_past_events
-
-def previous_attributions(series):
-    """Returns a series with the number of times an app has been downloaded."""
-    clicked = pd.Series([clicks.index,clicks.is_attributed], index=clicks.click_time, name='click_count').sort_index()
     count_past_events = clicked.rolling('6H').count() - 1
     count_past_events.index = clicked.values
     count_past_events = count_past_events.reindex(clicks.index)
     return count_past_events
+
+
+def previous_attributions(series):
+    """Returns a series with the number of times an app has been downloaded."""
+    clicked = pd.Series([clicks.index, clicks.is_attributed], index=clicks.click_time, name='click_count').sort_index()
+    count_past_events = clicked.rolling('6H').count() - 1
+    count_past_events.index = clicked.values
+    count_past_events = count_past_events.reindex(clicks.index)
+    return count_past_events
+
+
 past_events = pd.read_parquet('input/feature-engineering-data/past_6hr_events.pqt')
 time_deltas = pd.read_parquet('input/feature-engineering-data/time_deltas.pqt')
 
